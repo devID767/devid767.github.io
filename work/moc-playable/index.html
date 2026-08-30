@@ -1,0 +1,161 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Mob Control Playable — Davyd Sarnavskyi</title><meta name="description" content="A real 3D crowd running at sprite performance — in a browser, in one file under 5 MB."><link rel="canonical" href="https://devid767.github.io/work/moc-playable/"><meta property="og:type" content="website"><meta property="og:title" content="Mob Control Playable — Davyd Sarnavskyi"><meta property="og:description" content="A real 3D crowd running at sprite performance — in a browser, in one file under 5 MB."><meta property="og:url" content="https://devid767.github.io/work/moc-playable/"><meta property="og:image" content="https://devid767.github.io/og/moc-playable.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Mob Control Playable — Davyd Sarnavskyi"><meta name="twitter:card" content="summary_large_image"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><meta name="theme-color" content="#0B0D0F" media="(prefers-color-scheme: dark)"><meta name="theme-color" content="#FBFAF8" media="(prefers-color-scheme: light)"><link rel="sitemap" href="/sitemap.xml"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Davyd Sarnavskyi","jobTitle":"Unity Developer","email":"mailto:dsarnavskiy77@gmail.com","url":"https://devid767.github.io/","sameAs":["https://www.linkedin.com/in/davyd-sarnavskyi/","https://github.com/devID767"],"worksFor":{"@type":"Organization","name":"Vira Games"}}</script><!-- тема ставится ДО первой отрисовки, иначе белая вспышка на тёмной теме --><script>
+      (function () {
+        var t = null;
+        try { t = localStorage.getItem('pf-theme'); } catch (e) {}
+        if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        document.documentElement.dataset.pfTheme = t;
+      })();
+    </script><link rel="stylesheet" href="/_astro/cv.DYVgOdrh.css"></head> <body> <div class="site" id="site" data-tail="shelf"> <div class="nav"> <a class="name" href="/">Davyd Sarnavskyi</a> <span class="links"> <a class="about" href="/#selected">Work</a><a class="about" href="/#about">About</a> <a class="cv" href="/cv">View CV</a> <button class="themer" id="themer" type="button" aria-label="Switch theme">☀</button> </span> </div>  <div class="case-top"> <div class="case-top-text"> <div class="cap">  <div><h1>Mob Control Playable</h1><p>Test task · Voodoo · Playable ad · 2026</p></div> </div> <p class="lede">A real 3D crowd running at sprite performance — in a browser, in one file under 5 MB.</p> <div class="nums"> <div><b>60</b><span>FPS at 800 units on the Fire 7</span></div><div><b>2.8 MB</b><span>of a 5 MB budget</span></div><div><b>7</b><span>days, concept to delivery</span></div> </div> </div>  </div> <div class="case-body"> <a class="case-cta" href="/playable">▶ Play in browser</a> <p class="measured">Frame rate read from an on-screen counter on the target device; drops traced with the Unity Profiler.</p><h3>Context</h3><p>A test task for Voodoo: build a playable ad of Mob Control that runs as a single HTML file in any browser, under five megabytes, in one week. Unity and C# on the authoring side, Luna Labs to transpile it to the web.</p> <h3>Playable ads fake their crowds with sprites — this one runs a real 3D crowd</h3> <p class="kicker">The differentiator</p> <p>Playable ads fake crowds with sprites because real ones do not fit the budget. I wanted actual 3D units, which meant proving they could run on the slowest device anyone would open this on — a 1 GB Amazon Fire 7.</p> <div class="pull"><b>60 vs 10</b><span>FPS against one object per unit</span></div> <p>The straightforward approach died on measurement: one game object per unit gave ten frames a second at eight hundred units. So the crowd stopped being objects.</p>  <p>Units render from a vertex animation texture with a genuinely baked walk cycle, merged into batches of two hundred, with a separate texture carrying per-unit state. Colour space moved from linear to gamma, which is what brought the Fire 7 back to life at all.</p>  <p>The result was sixty frames a second at eight hundred units and forty-seven at fifteen hundred, on the cheapest tablet in the room.</p>  <h3>Enemies, gates, a tower and a fever bar had to fit the same week</h3> <p class="kicker">Scope</p> <p>Gameplay: a stream of enemies with mutual attrition on a grid, multiplier gates up to ten with a zone query and a guard against recursive re-entry, a tower with health, a damage zone, a wall, a blocker, a fever bar, and a champion unit with its own skinning and a fan of gate clones.</p>  <p>Presentation: a window system for menu, game, win and lose with end cards, transitions on DOTween, a two-light MatCap setup with a pastel palette and distance fog, and contact shadows — a blob under the cannon and a planar silhouette under the tower and gates through a single-pass per-caster shader with stencil and edge clipping, plus a shadow for the crowd drawn through the same batch as the crowd itself.</p>  <p>Effects and feel: wheel smoke, muzzle flash, tower explosion, idle glints on the gates, spawn and death animations driven through the state channel of the crowd texture, an audio system with a voice pool, music from the first tap, and a tutorial sequence rebuilt from the reference.</p>  <p>The transpiler had its own rules. Some maths functions do not survive it, so crowd rotation had to be re-encoded as a direction vector after a bug that existed only in the web build.</p>  <p>The last day was a performance session: shadows reinstated, champion pooling, culling of crowd batches, simulation gated while in the menu, and a warm-up pass on load. Combat holds thirty frames on the Fire 7.</p> <h3>Worth calling out</h3> <p class="owned-lede">I built this one end to end. These are the parts worth naming.</p> <dl class="owned"> <div> <dt>The crowd</dt> <dd><ul><li>Vertex-animation-texture rendering with baked animation, merged batches and a per-unit state texture.</li><li>The measurement that killed the naive approach before it cost a week.</li><li>Batch culling, pooling and a load-time warm-up pass.</li></ul></dd> </div><div> <dt>The game</dt> <dd><ul><li>Enemy flow and grid attrition, multiplier gates to ten, tower health, damage zone, wall, blocker, fever bar and champion.</li><li>Match loop across menu, play, win and lose, with end cards and the install call to action.</li></ul></dd> </div><div> <dt>The look</dt> <dd><ul><li>Two-light MatCap setup, pastel palette and distance fog matched to the reference.</li><li>Contact shadows through a single-pass per-caster shader, including one for the crowd.</li><li>Effects, unit animations, audio with a voice pool, and the tutorial sequence.</li></ul></dd> </div> </dl>  <h3>Project facts</h3> <dl class="spec"> <div><dt>Year</dt><dd>2026</dd></div><div><dt>Role</dt><dd>Solo developer</dd></div><div><dt>Brief</dt><dd>Test task for Voodoo</dd></div><div><dt>Time</dt><dd>One week</dd></div><div><dt>Engine</dt><dd>Unity and C#, transpiled with Luna</dd></div><div><dt>Target</dt><dd>Any browser, verified on Amazon Fire 7</dd></div><div><dt>Size</dt><dd>2.8 MB single HTML file</dd></div><div><dt>Source</dt><dd>Closed by agreement — demo and write-up only</dd></div>   <div class="full"><dt>Where to see it</dt><dd><a href="/playable">Play in browser ↗</a></dd></div>  </dl>  <h3>Tools &amp; techniques</h3> <div class="stack"><span>Luna Labs</span><span>Vertex animation textures</span><span>DOTween</span><span>TextMesh Pro</span></div> <div class="pager"> <a href="/work/cowboy-shooter">← Cowboy Shooter</a> <a class="all" href="/#selected">All work</a> <a href="/work/soap-slice">Soap Slice →</a> </div> </div> <script>
+    /* Стрелки листают кейсы — пейджер работает и с клавиатуры (было в макете, сохранено) */
+    document.addEventListener('keydown', function (e) {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      var sel = e.key === 'ArrowLeft' ? '.pager a:first-child' : e.key === 'ArrowRight' ? '.pager a:last-child' : null;
+      if (!sel) return;
+      var a = document.querySelector(sel);
+      if (a) window.location.href = a.getAttribute('href');
+    });
+  </script>  <div class="foot"> <span>Davyd Sarnavskyi · Unity Developer</span> <a href="/#about">Contact</a> <span class="upd">Updated August 2026</span> </div> <div class="actionbar"><a href="/playable">▶ Play</a><a href="/cv">View CV</a><a href="/#about">Contact</a></div> </div> <script>
+      /* Полка листается стрелками: горизонтальная лента без видимого управления
+         на десктопе читается как обрыв, а не как «здесь есть ещё». */
+      document.querySelectorAll('.shelf-nav button, .shots-nav button').forEach(function (b) {
+        b.addEventListener('click', function () {
+          var box = document.getElementById(b.parentNode.dataset.for);
+          if (box) box.scrollBy({ left: b.dataset.dir * Math.round(box.clientWidth * 0.8), behavior: 'smooth' });
+        });
+      });
+      /* Стрелки над лентой, которая целиком помещается в колонку, ведут в пустоту —
+         на кейсе с двумя кадрами они просто не нажимаются. Показываем их только
+         когда листать действительно есть что. */
+      (function () {
+        var navs = [].slice.call(document.querySelectorAll('.shots-nav'));
+        if (!navs.length) return;
+        function sync() {
+          navs.forEach(function (n) {
+            var box = document.getElementById(n.dataset.for);
+            n.style.visibility = box && box.scrollWidth > box.clientWidth + 4 ? '' : 'hidden';
+          });
+        }
+        sync();
+        window.addEventListener('resize', sync);
+        window.addEventListener('load', sync);
+      })();
+      /* Кадры в ленте — превью одной высоты, как в сторе: рассмотреть их можно
+         только на полном экране, поэтому клик открывает лайтбокс. Без него
+         вертикальный кадр в такой ленте нечитаем. Листается стрелками и свайпом
+         по тем же кадрам, что в ленте. */
+      (function () {
+        var lane = document.getElementById('case-shots');
+        if (!lane) return;
+        var frames = [].slice.call(lane.querySelectorAll('img'));
+        if (!frames.length) return;
+        var box = document.createElement('div');
+        box.className = 'lightbox';
+        box.setAttribute('hidden', '');
+        box.setAttribute('role', 'dialog');
+        box.setAttribute('aria-modal', 'true');
+        box.setAttribute('aria-label', 'Screenshot viewer');
+        box.innerHTML =
+          '<button class="lb-close" aria-label="Close">✕</button>' +
+          '<button class="lb-prev" aria-label="Previous screenshot">←</button>' +
+          '<img alt="">' +
+          '<button class="lb-next" aria-label="Next screenshot">→</button>';
+        document.body.appendChild(box);
+        var pic = box.querySelector('img');
+        var stops = [].slice.call(box.querySelectorAll('button'));
+        var at = 0, cameFrom = null;
+        function show(i) {
+          at = (i + frames.length) % frames.length;
+          pic.src = frames[at].src;
+          pic.alt = frames[at].alt || '';
+        }
+        function open(i) {
+          cameFrom = frames[i].parentNode;
+          show(i);
+          box.removeAttribute('hidden');
+          document.body.style.overflow = 'hidden';
+          box.querySelector('.lb-close').focus();
+        }
+        function close() {
+          box.setAttribute('hidden', '');
+          document.body.style.overflow = '';
+          /* Фокус возвращается на тот кадр, с которого открыли, иначе с клавиатуры
+             человек вываливается в начало страницы и листает ленту заново. */
+          if (cameFrom) cameFrom.focus();
+          cameFrom = null;
+        }
+        frames.forEach(function (f, i) {
+          var slot = f.parentNode;
+          slot.style.cursor = 'zoom-in';
+          /* Кадр открывается не только мышью: без этого лента была недостижима
+             с клавиатуры — обёртка кадра обычный div. */
+          slot.setAttribute('tabindex', '0');
+          slot.setAttribute('role', 'button');
+          slot.setAttribute('aria-label', 'Open ' + (f.alt || 'screenshot') + ' full screen');
+          slot.addEventListener('click', function () { open(i); });
+          slot.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(i); }
+          });
+        });
+        box.querySelector('.lb-close').addEventListener('click', close);
+        box.querySelector('.lb-prev').addEventListener('click', function (e) { e.stopPropagation(); show(at - 1); });
+        box.querySelector('.lb-next').addEventListener('click', function (e) { e.stopPropagation(); show(at + 1); });
+        box.addEventListener('click', function (e) { if (e.target === box || e.target === pic) close(); });
+        document.addEventListener('keydown', function (e) {
+          if (box.hasAttribute('hidden')) return;
+          if (e.key === 'Escape') close();
+          if (e.key === 'ArrowLeft') show(at - 1);
+          if (e.key === 'ArrowRight') show(at + 1);
+          /* Ловушка фокуса: пока открыт полноэкранный просмотр, Tab ходит по его же
+             трём кнопкам. Иначе фокус уезжает в спрятанную за ним страницу. */
+          if (e.key === 'Tab') {
+            e.preventDefault();
+            var i = stops.indexOf(document.activeElement);
+            var next = (i + (e.shiftKey ? -1 : 1) + stops.length) % stops.length;
+            stops[i < 0 ? 0 : next].focus();
+          }
+        });
+      })();
+
+      var SITE = document.getElementById('site');
+      function setTheme(t) {
+        SITE.dataset.theme = t;
+        document.documentElement.dataset.pfTheme = t;
+        var b = document.getElementById('themer');
+        if (b) b.textContent = t === 'light' ? '☾' : '☀';
+        try { localStorage.setItem('pf-theme', t); } catch (e) {}
+      }
+      setTheme(document.documentElement.dataset.pfTheme || 'dark');
+      document.getElementById('themer').addEventListener('click', function () {
+        setTheme(SITE.dataset.theme === 'light' ? 'dark' : 'light');
+      });
+
+      /* Высота липкого стека МЕРЯЕТСЯ, а не хардкодится: иначе якоря
+         роняют заголовок секции под шапку (находка F2 ревью №3). */
+      function measureChrome() {
+        var nav = SITE.querySelector('.nav'), anc = SITE.querySelector('.anchors');
+        if (nav) SITE.style.setProperty('--nav-h', Math.round(nav.getBoundingClientRect().height) + 'px');
+        if (anc) SITE.style.setProperty('--anchors-h', Math.round(anc.getBoundingClientRect().height) + 'px');
+      }
+      measureChrome();
+      window.addEventListener('resize', measureChrome);
+
+      /* Присланная ссылка вида /#about открывалась НАВЕРХУ: браузер пробует
+         прыжок до того, как картинки посчитали высоту, и промахивается.
+         Повторяем прыжок после полной загрузки. */
+      if (location.hash.length > 1) {
+        var jump = function () {
+          var el = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+          if (!el) return;
+          /* Мгновенно: html{scroll-behavior:smooth} превращает догоняющий прыжок
+             в анимацию, которая на медленной загрузке не доезжает. */
+          var root = document.documentElement, prev = root.style.scrollBehavior;
+          root.style.scrollBehavior = 'auto';
+          var css = getComputedStyle(SITE),
+              off = (parseInt(css.getPropertyValue('--nav-h')) || 0) + (parseInt(css.getPropertyValue('--anchors-h')) || 0) + 14;
+          window.scrollTo(0, Math.max(0, el.getBoundingClientRect().top + window.pageYOffset - off));
+          root.style.scrollBehavior = prev;
+        };
+        window.addEventListener('load', function () { jump(); setTimeout(jump, 120); });
+      }
+      if (window.ResizeObserver) new ResizeObserver(measureChrome).observe(SITE);
+    </script> </body> </html>

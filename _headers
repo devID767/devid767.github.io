@@ -1,0 +1,4 @@
+# Имя файла при сохранении. inline, а не attachment: рекрутёр открывает PDF
+# прямо во вкладке, но «Сохранить как» подставляет полное имя, а не cv.pdf.
+/cv.pdf
+  Content-Disposition: inline; filename="Davyd_Sarnavskyi_CV.pdf"

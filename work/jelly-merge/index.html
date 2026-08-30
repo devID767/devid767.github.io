@@ -1,0 +1,161 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Jelly Merge — Davyd Sarnavskyi</title><meta name="description" content="Towers of hundreds of cubes that cost the same draw calls as one."><link rel="canonical" href="https://devid767.github.io/work/jelly-merge/"><meta property="og:type" content="website"><meta property="og:title" content="Jelly Merge — Davyd Sarnavskyi"><meta property="og:description" content="Towers of hundreds of cubes that cost the same draw calls as one."><meta property="og:url" content="https://devid767.github.io/work/jelly-merge/"><meta property="og:image" content="https://devid767.github.io/og/jelly-merge.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Jelly Merge — Davyd Sarnavskyi"><meta name="twitter:card" content="summary_large_image"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><meta name="theme-color" content="#0B0D0F" media="(prefers-color-scheme: dark)"><meta name="theme-color" content="#FBFAF8" media="(prefers-color-scheme: light)"><link rel="sitemap" href="/sitemap.xml"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Davyd Sarnavskyi","jobTitle":"Unity Developer","email":"mailto:dsarnavskiy77@gmail.com","url":"https://devid767.github.io/","sameAs":["https://www.linkedin.com/in/davyd-sarnavskyi/","https://github.com/devID767"],"worksFor":{"@type":"Organization","name":"Vira Games"}}</script><!-- тема ставится ДО первой отрисовки, иначе белая вспышка на тёмной теме --><script>
+      (function () {
+        var t = null;
+        try { t = localStorage.getItem('pf-theme'); } catch (e) {}
+        if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        document.documentElement.dataset.pfTheme = t;
+      })();
+    </script><link rel="stylesheet" href="/_astro/cv.DYVgOdrh.css"></head> <body> <div class="site" id="site" data-tail="shelf"> <div class="nav"> <a class="name" href="/">Davyd Sarnavskyi</a> <span class="links"> <a class="about" href="/#selected">Work</a><a class="about" href="/#about">About</a> <a class="cv" href="/cv">View CV</a> <button class="themer" id="themer" type="button" aria-label="Switch theme">☀</button> </span> </div>  <div class="case-top"> <div class="case-top-text"> <div class="cap"> <img class="ico" src="/media/jelly-run/icon.webp" alt="" aria-hidden="true" width="128" height="128"> <div><h1>Jelly Merge</h1><p>Vira Games · Runner · 2024</p></div> </div> <p class="lede">Towers of hundreds of cubes that cost the same draw calls as one.</p> <div class="nums"> <div><b>15 → 26–30</b><span>FPS in meta</span></div><div><b>~5 min</b><span>per designer asset</span></div> </div> </div> <div class="case-top-shots"> <div class="portrait"><img src="/media/jelly-run/shot-1.webp" alt="Jelly Merge screenshot" width="750" height="1200"></div><div class="portrait"><img src="/media/jelly-run/shot-3.webp" alt="Jelly Merge screenshot" width="750" height="1200"></div> </div> </div> <div class="case-body">  <p class="measured">Frame rate read from an on-screen counter on the target device; drops traced with the Unity Profiler.</p><h3>Context</h3><p>A runner built on one move: the cube you drive splits in two and merges back — the numbers on it halve and combine with it — and every obstacle is cleared by choosing the right state. The ending was ours, not a brief: the cubes ride a pipe down into a bucket, splitting through gates on the way. On top of the run sat a meta where you build figures out of hundreds of cubes.</p> <h3>I kept the physics on purpose — it was the entire feel of the run</h3> <p class="kicker">Feel</p><figure class="inset"> <div class="portrait"> <img src="/media/jelly-run/shot-2.webp" alt="Jelly Merge screenshot" loading="lazy" width="750" height="1200"> </div> </figure> <p>The run is one move: the cube splits in two and merges back, and the numbers on it split and combine with it.</p>  <p>With that little input, everything rests on how the cube feels, so I kept real physics for the movement instead of scripting it — the opposite call from the cutting game, for the opposite reason.</p>  <p>The split and merge animations had to look edible. The artist supplied a blendshape and I drove its value, then spent a long time on the tween parameters so one animation hands over to the next without a visible seam.</p>  <h3>A tower of hundreds of cubes, baked down to the draw calls of one</h3> <p class="kicker">The meta tool</p><figure class="inset"> <div class="portrait"> <img src="/media/jelly-run/meta-build.webp" alt="Jelly Merge screenshot" loading="lazy" width="750" height="1200"> </div> </figure> <p>The meta builds figures out of hundreds of cubes, and models arrived already cut into thousands of them. Drawn one by one, a structure would cost as many draw calls as it had cubes.</p>  <p>My editor tool baked those cubes in chunks, bottom to top, using Mesh Baker. The result was handed back as a skinned mesh rather than a plain one, so an individual cube inside a baked model stayed a controllable object — baking usually takes that control away.</p>  <p>At runtime the object holds a transparent blueprint before construction, loads one floor, collapses the finished floor into a single boneless model, then loads the next.</p>  <p>The cost was honest and immediate: one model now produced a lot of meshes and prefabs. I paid for it with Addressables, loading the parts on demand instead of shipping them all.</p> <h3>Worth calling out</h3> <p class="owned-lede">I built this one end to end — gameplay, menus, progression, shop, skins, tutorial, ads and store builds. These are the parts worth naming.</p> <dl class="owned"> <div> <dt>The run</dt> <dd><ul><li>Split and merge as the only input, with physics kept deliberately for the feel.</li><li>Sphere overlap in place of collision callbacks in the core loop.</li><li>A finish the team invented rather than received: the cubes ride a pipe into a bucket, splitting through gates on the way down.</li></ul></dd> </div><div> <dt>The meta</dt> <dd><ul><li>The editor tool that turns a raw designer model into a game object in about five minutes.</li><li>Chunked baking to a skinned mesh, so draw calls stopped scaling with the size of a structure.</li><li>Cached and grouped tweens for the falling cubes, so construction reads fast without eating the frame.</li><li>Addressables to hold the build size down once the tool multiplied the meshes.</li><li>A Sims-style level editor: objects, cubes and obstacles placed by clicking directly in the scene.</li></ul></dd> </div> </dl> <h3>More from the game</h3> <div class="shots-nav" data-for="case-shots"> <button type="button" data-dir="-1" aria-label="Scroll left">←</button> <button type="button" data-dir="1" aria-label="Scroll right">→</button> </div> <div class="shots" id="case-shots"> <div class="portrait" style="aspect-ratio:750/1200">  <img src="/media/jelly-run/cube-flood.webp" alt="Jelly Merge screenshot 1 of 2" loading="lazy" width="750" height="1200"> </div><div class="portrait" style="aspect-ratio:750/1200">  <img src="/media/jelly-run/shot-4.webp" alt="Jelly Merge screenshot 2 of 2" loading="lazy" width="750" height="1200"> </div> </div>  <h3>Project facts</h3> <dl class="spec"> <div><dt>Year</dt><dd>2024</dd></div><div><dt>Role</dt><dd>Unity Developer</dd></div><div><dt>Team</dt><dd>Three-person pod — game designer, artist, me</dd></div><div><dt>Scope</dt><dd>Solo developer, concept to release</dd></div><div><dt>Studio</dt><dd>Vira Games</dd></div><div><dt>Released as</dt><dd>VG Interactive</dd></div><div><dt>Engine</dt><dd>Unity, C#</dd></div><div><dt>Platform</dt><dd>Android · Google Play and Amazon Appstore</dd></div><div><dt>Target device</dt><dd>Amazon Fire 7 · 1 GB RAM</dd></div><div><dt>Measured</dt><dd>Release build on the target tablet, on-screen counter</dd></div><div><dt>Baking</dt><dd>About a thousand cubes per structure, baked in chunks of roughly 200</dd></div><div><dt>Before the tool</dt><dd>No one had integrated a model like this — the meta was not feasible without it</dd></div><div><dt>Level editor</dt><dd>A Sims-style in-scene editor — the designer placed cubes and obstacles by clicking</dd></div>  <div class="full"><dt>Where to see it</dt> <dd> <a href="https://www.amazon.com/dp/B0DBVWW5CV" target="_blank" rel="noopener">Amazon Appstore ↗</a>  · listed as <b>Jelly Merge</b> </dd></div>   </dl>  <h3>Tools &amp; techniques</h3> <div class="stack"><span>Mesh Baker (Unity Asset Store)</span><span>Skinned-mesh baking</span><span>Addressables</span><span>DOTween</span><span>SphereOverlap</span></div> <div class="pager"> <a href="/work/chessoutline">← ChessOutline</a> <a class="all" href="/#selected">All work</a> <a href="/work/squishy-octopus">Squishy Octopus →</a> </div> </div> <script>
+    /* Стрелки листают кейсы — пейджер работает и с клавиатуры (было в макете, сохранено) */
+    document.addEventListener('keydown', function (e) {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      var sel = e.key === 'ArrowLeft' ? '.pager a:first-child' : e.key === 'ArrowRight' ? '.pager a:last-child' : null;
+      if (!sel) return;
+      var a = document.querySelector(sel);
+      if (a) window.location.href = a.getAttribute('href');
+    });
+  </script>  <div class="foot"> <span>Davyd Sarnavskyi · Unity Developer</span> <a href="/#about">Contact</a> <span class="upd">Updated August 2026</span> </div> <div class="actionbar"><a href="/playable">▶ Play</a><a href="/cv">View CV</a><a href="/#about">Contact</a></div> </div> <script>
+      /* Полка листается стрелками: горизонтальная лента без видимого управления
+         на десктопе читается как обрыв, а не как «здесь есть ещё». */
+      document.querySelectorAll('.shelf-nav button, .shots-nav button').forEach(function (b) {
+        b.addEventListener('click', function () {
+          var box = document.getElementById(b.parentNode.dataset.for);
+          if (box) box.scrollBy({ left: b.dataset.dir * Math.round(box.clientWidth * 0.8), behavior: 'smooth' });
+        });
+      });
+      /* Стрелки над лентой, которая целиком помещается в колонку, ведут в пустоту —
+         на кейсе с двумя кадрами они просто не нажимаются. Показываем их только
+         когда листать действительно есть что. */
+      (function () {
+        var navs = [].slice.call(document.querySelectorAll('.shots-nav'));
+        if (!navs.length) return;
+        function sync() {
+          navs.forEach(function (n) {
+            var box = document.getElementById(n.dataset.for);
+            n.style.visibility = box && box.scrollWidth > box.clientWidth + 4 ? '' : 'hidden';
+          });
+        }
+        sync();
+        window.addEventListener('resize', sync);
+        window.addEventListener('load', sync);
+      })();
+      /* Кадры в ленте — превью одной высоты, как в сторе: рассмотреть их можно
+         только на полном экране, поэтому клик открывает лайтбокс. Без него
+         вертикальный кадр в такой ленте нечитаем. Листается стрелками и свайпом
+         по тем же кадрам, что в ленте. */
+      (function () {
+        var lane = document.getElementById('case-shots');
+        if (!lane) return;
+        var frames = [].slice.call(lane.querySelectorAll('img'));
+        if (!frames.length) return;
+        var box = document.createElement('div');
+        box.className = 'lightbox';
+        box.setAttribute('hidden', '');
+        box.setAttribute('role', 'dialog');
+        box.setAttribute('aria-modal', 'true');
+        box.setAttribute('aria-label', 'Screenshot viewer');
+        box.innerHTML =
+          '<button class="lb-close" aria-label="Close">✕</button>' +
+          '<button class="lb-prev" aria-label="Previous screenshot">←</button>' +
+          '<img alt="">' +
+          '<button class="lb-next" aria-label="Next screenshot">→</button>';
+        document.body.appendChild(box);
+        var pic = box.querySelector('img');
+        var stops = [].slice.call(box.querySelectorAll('button'));
+        var at = 0, cameFrom = null;
+        function show(i) {
+          at = (i + frames.length) % frames.length;
+          pic.src = frames[at].src;
+          pic.alt = frames[at].alt || '';
+        }
+        function open(i) {
+          cameFrom = frames[i].parentNode;
+          show(i);
+          box.removeAttribute('hidden');
+          document.body.style.overflow = 'hidden';
+          box.querySelector('.lb-close').focus();
+        }
+        function close() {
+          box.setAttribute('hidden', '');
+          document.body.style.overflow = '';
+          /* Фокус возвращается на тот кадр, с которого открыли, иначе с клавиатуры
+             человек вываливается в начало страницы и листает ленту заново. */
+          if (cameFrom) cameFrom.focus();
+          cameFrom = null;
+        }
+        frames.forEach(function (f, i) {
+          var slot = f.parentNode;
+          slot.style.cursor = 'zoom-in';
+          /* Кадр открывается не только мышью: без этого лента была недостижима
+             с клавиатуры — обёртка кадра обычный div. */
+          slot.setAttribute('tabindex', '0');
+          slot.setAttribute('role', 'button');
+          slot.setAttribute('aria-label', 'Open ' + (f.alt || 'screenshot') + ' full screen');
+          slot.addEventListener('click', function () { open(i); });
+          slot.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(i); }
+          });
+        });
+        box.querySelector('.lb-close').addEventListener('click', close);
+        box.querySelector('.lb-prev').addEventListener('click', function (e) { e.stopPropagation(); show(at - 1); });
+        box.querySelector('.lb-next').addEventListener('click', function (e) { e.stopPropagation(); show(at + 1); });
+        box.addEventListener('click', function (e) { if (e.target === box || e.target === pic) close(); });
+        document.addEventListener('keydown', function (e) {
+          if (box.hasAttribute('hidden')) return;
+          if (e.key === 'Escape') close();
+          if (e.key === 'ArrowLeft') show(at - 1);
+          if (e.key === 'ArrowRight') show(at + 1);
+          /* Ловушка фокуса: пока открыт полноэкранный просмотр, Tab ходит по его же
+             трём кнопкам. Иначе фокус уезжает в спрятанную за ним страницу. */
+          if (e.key === 'Tab') {
+            e.preventDefault();
+            var i = stops.indexOf(document.activeElement);
+            var next = (i + (e.shiftKey ? -1 : 1) + stops.length) % stops.length;
+            stops[i < 0 ? 0 : next].focus();
+          }
+        });
+      })();
+
+      var SITE = document.getElementById('site');
+      function setTheme(t) {
+        SITE.dataset.theme = t;
+        document.documentElement.dataset.pfTheme = t;
+        var b = document.getElementById('themer');
+        if (b) b.textContent = t === 'light' ? '☾' : '☀';
+        try { localStorage.setItem('pf-theme', t); } catch (e) {}
+      }
+      setTheme(document.documentElement.dataset.pfTheme || 'dark');
+      document.getElementById('themer').addEventListener('click', function () {
+        setTheme(SITE.dataset.theme === 'light' ? 'dark' : 'light');
+      });
+
+      /* Высота липкого стека МЕРЯЕТСЯ, а не хардкодится: иначе якоря
+         роняют заголовок секции под шапку (находка F2 ревью №3). */
+      function measureChrome() {
+        var nav = SITE.querySelector('.nav'), anc = SITE.querySelector('.anchors');
+        if (nav) SITE.style.setProperty('--nav-h', Math.round(nav.getBoundingClientRect().height) + 'px');
+        if (anc) SITE.style.setProperty('--anchors-h', Math.round(anc.getBoundingClientRect().height) + 'px');
+      }
+      measureChrome();
+      window.addEventListener('resize', measureChrome);
+
+      /* Присланная ссылка вида /#about открывалась НАВЕРХУ: браузер пробует
+         прыжок до того, как картинки посчитали высоту, и промахивается.
+         Повторяем прыжок после полной загрузки. */
+      if (location.hash.length > 1) {
+        var jump = function () {
+          var el = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+          if (!el) return;
+          /* Мгновенно: html{scroll-behavior:smooth} превращает догоняющий прыжок
+             в анимацию, которая на медленной загрузке не доезжает. */
+          var root = document.documentElement, prev = root.style.scrollBehavior;
+          root.style.scrollBehavior = 'auto';
+          var css = getComputedStyle(SITE),
+              off = (parseInt(css.getPropertyValue('--nav-h')) || 0) + (parseInt(css.getPropertyValue('--anchors-h')) || 0) + 14;
+          window.scrollTo(0, Math.max(0, el.getBoundingClientRect().top + window.pageYOffset - off));
+          root.style.scrollBehavior = prev;
+        };
+        window.addEventListener('load', function () { jump(); setTimeout(jump, 120); });
+      }
+      if (window.ResizeObserver) new ResizeObserver(measureChrome).observe(SITE);
+    </script> </body> </html>
